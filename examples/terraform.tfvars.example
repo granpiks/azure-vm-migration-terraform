@@ -1,0 +1,42 @@
+# Copy to terraform.tfvars at the repo root and replace with the real inventory.
+# Secrets (admin_password) are passed through TF_VAR_admin_password, never written here.
+
+subscription_id     = "00000000-0000-0000-0000-000000000000"
+project_name        = "erp"
+environment         = "prod"
+location            = "westeurope"
+resource_group_name = "rg-erp-prod"
+subnet_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network/providers/Microsoft.Network/virtualNetworks/vnet-hub/subnets/snet-erp"
+
+admin_ssh_public_key = "ssh-ed25519 AAAA... ops@example.com"
+
+vms = {
+  app01 = {
+    size            = "Standard_D4s_v5"
+    os_type         = "Windows"
+    os_disk_size_gb = 128
+    data_disks_gb   = [256]
+    owner           = "finance-team"
+    migration_wave  = 1
+  }
+  db01 = {
+    size            = "Standard_E8s_v5"
+    os_type         = "Linux"
+    os_disk_size_gb = 64
+    data_disks_gb   = [512, 512]
+    private_ip      = "10.10.2.10"
+    owner           = "finance-team"
+    migration_wave  = 1
+  }
+  web01 = {
+    size            = "Standard_D2s_v5"
+    os_type         = "Linux"
+    os_disk_size_gb = 64
+    owner           = "web-team"
+    migration_wave  = 2
+  }
+}
+
+tags = {
+  cost_center = "CC-1234"
+}
